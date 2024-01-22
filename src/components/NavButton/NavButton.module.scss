@@ -1,0 +1,24 @@
+@import '../../../styles/mixins.scss';
+
+.container {
+    width: 100%;
+
+    @include displayFlex();
+    padding: 8px;
+    background: none;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.container:hover {
+    background-color: rgb(255 255 255 / 0.4);
+}
+
+.container:disabled {
+    color: rgb(255 255 255 / 0.4);
+}
+
+.selected {
+    background-color: rgb(255 255 255 / 0.1);
+}

@@ -1,0 +1,88 @@
+@mixin variables {
+    --guess-font-family-sans: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    --guess-font-family-monospace: 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono', 'Liberation Mono',
+        'DejaVu Sans Mono', 'Courier New', 'Courier', monospace;
+
+    --guess-text-body-font-family: var(--guess-font-family-sans);
+    --guess-text-caption-font-family: var(--guess-font-family-sans);
+    --guess-text-header-font-family: var(--guess-font-family-sans);
+    --guess-text-subheader-font-family: var(--guess-font-family-sans);
+    --guess-text-display-font-family: var(--guess-font-family-sans);
+    --guess-text-code-font-family: var(--guess-font-family-monospace);
+
+    --guess-text-body-font-weight: 400;
+    --guess-text-caption-font-weight: 400;
+    --guess-text-header-font-weight: 600;
+    --guess-text-subheader-font-weight: 600;
+    --guess-text-display-font-weight: 600;
+    --guess-text-code-font-weight: 400;
+    --guess-text-accent-font-weight: 600;
+
+    --guess-text-body-1-font-size: 13px;
+    --guess-text-body-1-line-height: 18px;
+
+    --guess-text-body-2-font-size: 15px;
+    --guess-text-body-2-line-height: 20px;
+
+    --guess-text-body-3-font-size: 17px;
+    --guess-text-body-3-line-height: 24px;
+
+    --guess-text-body-short-font-size: 13px;
+    --guess-text-body-short-line-height: 16px;
+
+    --guess-text-caption-1-font-size: 9px;
+    --guess-text-caption-1-line-height: 12px;
+
+    --guess-text-caption-2-font-size: 11px;
+    --guess-text-caption-2-line-height: 16px;
+
+    --guess-text-header-1-font-size: 20px;
+    --guess-text-header-1-line-height: 24px;
+
+    --guess-text-header-2-font-size: 24px;
+    --guess-text-header-2-line-height: 28px;
+
+    --guess-text-subheader-1-font-size: 13px;
+    --guess-text-subheader-1-line-height: 18px;
+
+    --guess-text-subheader-2-font-size: 15px;
+    --guess-text-subheader-2-line-height: 20px;
+
+    --guess-text-subheader-3-font-size: 17px;
+    --guess-text-subheader-3-line-height: 24px;
+
+    --guess-text-display-1-font-size: 28px;
+    --guess-text-display-1-line-height: 36px;
+
+    --guess-text-display-2-font-size: 32px;
+    --guess-text-display-2-line-height: 40px;
+
+    --guess-text-display-3-font-size: 40px;
+    --guess-text-display-3-line-height: 48px;
+
+    --guess-text-display-4-font-size: 48px;
+    --guess-text-display-4-line-height: 52px;
+
+    --guess-text-code-1-font-size: 12px;
+    --guess-text-code-1-line-height: 18px;
+
+    --guess-text-code-2-font-size: 14px;
+    --guess-text-code-2-line-height: 20px;
+
+    --guess-text-code-3-font-size: 16px;
+    --guess-text-code-3-line-height: 24px;
+
+    --guess-text-code-inline-1-font-size: 12px;
+    --guess-text-code-inline-1-line-height: 14px;
+
+    --guess-text-code-inline-2-font-size: 14px;
+    --guess-text-code-inline-2-line-height: 16px;
+
+    --guess-text-code-inline-3-font-size: 16px;
+    --guess-text-code-inline-3-line-height: 20px;
+
+    font-family: var(--guess-font-family-sans);
+    font-size: var(--guess-text-body-1-font-size);
+    line-height: var(--guess-text-body-1-line-height);
+    font-weight: var(--guess-text-body-font-weight);
+}

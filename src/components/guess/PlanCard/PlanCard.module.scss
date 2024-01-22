@@ -1,0 +1,17 @@
+.input {
+    border: none;
+    background: none;
+    color: #fff;
+    outline: none;
+    font-size: 120%;
+    padding: 0px 10px;
+    width: 100%;
+}
+
+.high-z-index {
+    z-index: 2;
+}
+
+.low-z-index {
+    z-index: 1;
+}

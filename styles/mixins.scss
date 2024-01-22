@@ -1,0 +1,16 @@
+@mixin text-size-media($mediaScreen, $name) {
+    @media (max-width: $mediaScreen) {
+        font-size: var(--guess-text-#{$name}-font-size);
+        line-height: var(--guess-text-#{$name}-line-height);
+    }
+}
+
+@mixin displayFlex($direction: row) {
+    display: flex;
+    flex-direction: $direction;
+}
+
+@mixin text-size($name) {
+    font-size: var(--guess-text-#{$name}-font-size);
+    line-height: var(--guess-text-#{$name}-line-height);
+}

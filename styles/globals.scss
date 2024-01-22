@@ -1,0 +1,34 @@
+@import './typography.scss';
+
+html,
+body {
+    @include variables();
+
+    margin: 0;
+    padding: 0;
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+        'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    background-color: #424454;
+}
+
+a {
+    text-decoration: none;
+
+    color: inherit;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button,
+input[type='number'] {
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    /* stylelint-enable property-no-vendor-prefix */
+    appearance: textfield;
+    margin: 0;
+}

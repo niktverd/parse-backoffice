@@ -1,0 +1,20 @@
+.container {
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    flex-wrap: wrap;
+
+    width: 100%;
+    min-width: 400px;
+
+    color: #ffffff;
+    align-items: center;
+}
+
+.list {
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    flex-wrap: wrap;
+    flex-grow: 1;
+    width: 100%;
+    min-width: 400px;
+
+    color: #ffffff;
+}

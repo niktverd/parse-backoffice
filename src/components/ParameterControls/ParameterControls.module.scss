@@ -1,0 +1,74 @@
+@import '../../../styles/mixins.scss';
+
+.container {
+    display: inline-flex;
+    padding: 10px;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: 24px;
+    margin: 10px;
+}
+
+.container:hover {
+    background-color: rgb(255 255 255 / 0.1);
+}
+
+.axis {
+    justify-content: space-between;
+}
+
+.button {
+    @include displayFlex();
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #fff;
+    margin-right: 8px;
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.button:hover {
+    background-color: rgb(255 255 255 / 0.1);
+}
+
+.axis-selector {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: 50%;
+    margin: 0px 4px;
+}
+
+.axis-selector:last-child {
+    margin-right: 0;
+}
+
+.axis-selector:hover {
+    background-color: rgb(255 255 255 / 0.1);
+}
+
+.axis-selector-label {
+    padding: 4px 12px;
+}
+
+.circle {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    margin-right: 16px;
+}
+
+.circles-selected {
+    border: 2px solid #0ff;
+    background-color: #0ff;
+}
+
+.container-selected {
+    background-color: rgb(255 255 255 / 0.3);
+    border: 1px solid rgb(255 255 255 / 0.5);
+}

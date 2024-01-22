@@ -1,0 +1,60 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
+
+.container {
+    width: auto;
+
+    @include displayFlex();
+    background: none;
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid rgb(255 255 255 / 1);
+    padding: 12px 24px;
+    margin-right: 16px;
+    border-radius: 8px;
+    text-align: center;
+
+    @include text-size('body-2');
+    @include text-size-media($breakpoint-s, 'body-1');
+}
+
+.container:hover {
+    background-color: rgb(255 255 255 / 0.4);
+}
+
+.container:disabled {
+    color: rgb(255 255 255 / 0.4);
+}
+
+.selected {
+    background-color: rgb(255 255 255 / 0.1);
+}
+
+.highlighted,
+.primary {
+    background-color: rgb(255 255 255 / 0.3);
+}
+
+.clear {
+    border: none;
+    background: none;
+}
+
+.highlighted {
+    border: none;
+}
+
+.size-s {
+    @include text-size('body-2');
+    @include text-size-media($breakpoint-s, 'body-1');
+}
+
+.size-m {
+    @include text-size('subheader-2');
+    @include text-size-media($breakpoint-s, 'subheader-1');
+}
+
+.size-l {
+    @include text-size('body-2');
+    @include text-size-media($breakpoint-s, 'body-1');
+}

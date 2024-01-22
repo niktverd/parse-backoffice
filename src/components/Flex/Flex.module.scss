@@ -1,0 +1,25 @@
+@import '../../../styles/variables.scss';
+
+.display {
+    display: flex;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.gap-s {
+    gap: $indentS;
+}
+
+.gap-m {
+    gap: $indentM;
+}
+
+.gap-l {
+    gap: $indentL;
+}

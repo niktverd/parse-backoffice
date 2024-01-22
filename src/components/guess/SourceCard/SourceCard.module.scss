@@ -1,0 +1,29 @@
+.input {
+    border: none;
+    background: none;
+    color: #fff;
+    outline: none;
+    font-size: 120%;
+    padding: 0px 10px;
+    width: 100%;
+    text-wrap: wrap;
+}
+
+.description-container {
+    margin-top: 12px;
+}
+
+.description {
+    max-width: 100%;
+    text-wrap: wrap;
+    overflow: hidden;
+    color: rgb(200 200 200 / 0.8);
+    font-size: 80%;
+    margin-top: 10px;
+}
+
+.actions-container {
+    flex-grow: 1;
+    align-items: flex-end;
+    justify-content: flex-end;
+}

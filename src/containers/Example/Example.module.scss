@@ -1,0 +1,30 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.container,
+.real,
+.video {
+    width: 100%;
+}
+
+.reverse {
+    flex-direction: row-reverse;
+}
+
+.direct {
+    flex-direction: row;
+}
+
+.buttons,
+.real {
+    justify-content: center;
+    align-items: center;
+}
+
+.example-title {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $indentL;
+
+    @include text-size('body-2');
+}

@@ -1,0 +1,41 @@
+.container {
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 15px;
+}
+
+.edit {
+    animation: pulse 5s ease-in-out 0s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        border-bottom: 1px solid rgb(5 218 255 / 0.7);
+    }
+    50% {
+        border-bottom: 1px solid rgb(255 5 5 / 0.3);
+    }
+    100% {
+        border-bottom: 1px solid rgb(5 218 255 / 0.7);
+    }
+}
+
+.container:hover {
+    background-color: rgb(222 222 222 / 0.2);
+}
+
+.label-text {
+    font-size: 150%;
+    color: rgb(222 222 222 / 0.9);
+}
+
+.label {
+    position: absolute;
+    font-size: 60%;
+    color: rgb(222 222 222 / 0.5);
+}
+
+.input {
+    text-align: right;
+}
