@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Report} from './report';
-import {ProjectData, SourceData} from './types';
 import {wrapper} from './utils';
 
 type CalculateTeamArgs = {
-    projectData: ProjectData;
-    source: SourceData;
+    projectData: any;
+    source: any;
     report: Report;
     month?: number;
 };
@@ -15,7 +15,7 @@ const MANAGERS_SALARY = 2000;
 
 export const calculateTeam = ({report, source, projectData}: CalculateTeamArgs) => {
     wrapper(report, 'byProduct', (key: string) => {
-        const product = source.products.find((prdct) => prdct.id === key);
+        const product = source.products.find((prdct: any) => prdct.id === key);
         if (!product || !product.staff) {
             return;
         }

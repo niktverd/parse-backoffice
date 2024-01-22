@@ -15,9 +15,7 @@ function MyApp({Component, pageProps}: AppProps) {
     const {getItem, setItem} = useStorage();
     const savedSource = JSON.parse((getItem('source', 'local') || '{}') as string);
     const ssdKeys = Object.keys(savedSource);
-    const [source, setSource] = useState<Source>(
-        ssdKeys.length ? savedSource : initialSource,
-    );
+    const [source, setSource] = useState<Source>(ssdKeys.length ? savedSource : initialSource);
     const setSourceUpdated: React.Dispatch<React.SetStateAction<Source>> = (
         sd: SetStateAction<Source>,
     ) => {

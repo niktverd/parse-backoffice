@@ -1,6 +1,5 @@
 import {ChangeEvent} from 'react';
 
-
 export type SelectorArgs = {
     path: string;
     value: string | string[] | Record<string, string[]>;

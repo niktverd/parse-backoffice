@@ -125,11 +125,7 @@ export const SourceLayout = ({
                     </div>
                 ) : null} */}
                 {section === Section.General ? (
-                    <GeneralForm
-                        previewOnly={previewOnly}
-                        source={source}
-                        onChange={onChange}
-                    />
+                    <GeneralForm previewOnly={previewOnly} source={source} onChange={onChange} />
                 ) : null}
                 {/* {section === Section.Products ? (
                     <GuessProductList

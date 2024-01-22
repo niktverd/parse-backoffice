@@ -66,7 +66,6 @@ export async function getSourceById({req, res, db}: HandlerArgs<Source | null>) 
     });
 }
 
-
 export async function addSource({req, res}: HandlerArgs<Source>) {
     const tokenId = await obtainToken(req, res);
 
