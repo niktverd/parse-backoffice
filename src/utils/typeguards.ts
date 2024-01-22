@@ -1,7 +1,7 @@
 import {ChangeEvent} from 'react';
 
-import {OnProjectChangeArgs} from '../types/common';
+import {OnSourceChangeArgs} from '../types/common';
 
-export const isEvent = (entry: OnProjectChangeArgs): entry is ChangeEvent<HTMLInputElement> => {
+export const isEvent = (entry: OnSourceChangeArgs): entry is ChangeEvent<HTMLInputElement> => {
     return 'target' in (entry as ChangeEvent<HTMLInputElement>);
 };

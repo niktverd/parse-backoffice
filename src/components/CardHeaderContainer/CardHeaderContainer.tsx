@@ -3,7 +3,7 @@ import React from 'react';
 import {Check, Pencil} from '@gravity-ui/icons';
 import type {NextPage} from 'next';
 
-import {OnProjectChangeArgs} from '../../types/common';
+import {OnSourceChangeArgs} from '../../types/common';
 import {Flex} from '../Flex/Flex';
 
 import s from './CardHeaderContainer.module.scss';
@@ -15,7 +15,7 @@ type CardHeaderContainerProps = {
     previewOnly?: boolean;
     editable?: boolean;
     setEditable?: React.Dispatch<React.SetStateAction<boolean>>;
-    onChange?: (event: OnProjectChangeArgs) => void;
+    onChange?: (event: OnSourceChangeArgs) => void;
     onFinishEdit?: () => void;
     disabled?: boolean;
 };
