@@ -1,0 +1,22 @@
+.container {
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    flex-wrap: wrap;
+
+    width: 100%;
+    min-width: 400px;
+
+    color: #ffffff;
+    align-items: center;
+}
+
+.row {
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    width: 100%;
+    min-width: 400px;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    padding: 6px;
+    border-bottom: 1px solid rgb(130 130 130);
+
+    color: #ffffff;
+}

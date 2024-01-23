@@ -19,8 +19,8 @@ export async function getSourcesList({req, res, db}: HandlerArgs<Source[]>) {
     const tokenId = await obtainToken(req, res);
 
     const guessCollectionRef = collection(db, 'sources');
-    const guessDocRef = doc(guessCollectionRef, tokenId);
-    const sourceCollectionRef = collection(guessDocRef, 'sources');
+    const sourceDocRef = doc(guessCollectionRef, tokenId);
+    const sourceCollectionRef = collection(sourceDocRef, 'sources');
     const docSnaps = await getDocs(sourceCollectionRef);
 
     if (docSnaps.empty) {
@@ -46,8 +46,8 @@ export async function getSourceById({req, res, db}: HandlerArgs<Source | null>) 
     }
 
     const guessCollectionRef = collection(db, 'sources');
-    const guessDocRef = doc(guessCollectionRef, tokenId);
-    const sourceCollectionRef = doc(guessDocRef, 'sources', sourceId);
+    const sourceDocRef = doc(guessCollectionRef, tokenId);
+    const sourceCollectionRef = doc(sourceDocRef, 'sources', sourceId);
     const docSnap = await getDoc(sourceCollectionRef);
 
     if (!docSnap.exists()) {

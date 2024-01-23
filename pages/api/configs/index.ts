@@ -31,8 +31,8 @@ async function getConfig(req: NextApiRequest, res: NextApiResponse<DataBase<Sour
     }
 
     const guessCollectionRef = collection(db, 'sources');
-    const guessDocRef = doc(guessCollectionRef, tokenId);
-    const sourceRef = doc(guessDocRef, 'sources', sourceId);
+    const sourceDocRef = doc(guessCollectionRef, tokenId);
+    const sourceRef = doc(sourceDocRef, 'sources', sourceId);
     const docSnap = await getDoc(sourceRef);
 
     if (!docSnap.exists()) {

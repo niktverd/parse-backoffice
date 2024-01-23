@@ -52,15 +52,15 @@ export const writeSourceToDataBase = async ({
     tokenId: string;
 }) => {
     const guessCollectionRef = collection(db, 'sources');
-    const guessDocRef = doc(guessCollectionRef, tokenId);
-    const guessDoc = await getDoc(guessDocRef);
-    if (!guessDoc.exists()) {
-        await setDoc(guessDocRef, {userId: tokenId});
+    const sourceDocRef = doc(guessCollectionRef, tokenId);
+    const sourceDoc = await getDoc(sourceDocRef);
+    if (!sourceDoc.exists()) {
+        await setDoc(sourceDocRef, {userId: tokenId});
     }
 
     const updatedBody = {...source};
 
-    const sourceRef = doc(guessDocRef, 'sources', source.data.id);
+    const sourceRef = doc(sourceDocRef, 'sources', source.data.id);
     await setDoc(sourceRef, updatedBody);
 
     return updatedBody;

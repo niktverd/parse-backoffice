@@ -40,6 +40,11 @@ export const Page: NextPage<PageProps> = ({
                         <li className={getItemClass(styles['nav-item'], selectedKey === 'sources')}>
                             <Link href="/protected/sources">Sources</Link>
                         </li>
+                        <li
+                            className={getItemClass(styles['nav-item'], selectedKey === 'api-keys')}
+                        >
+                            <Link href="/protected/api-keys">Api Keys</Link>
+                        </li>
                         {/* <li className={getItemClass(styles['nav-item'], selectedKey === 'donate')}>Donate</li> */}
                         {/* <li
                             className={getItemClass(styles['nav-item'], selectedKey === 'payments')}

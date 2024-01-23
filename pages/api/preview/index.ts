@@ -15,8 +15,8 @@ async function getSourceById(req: NextApiRequest, res: NextApiResponse<DataBase<
     }
 
     const guessCollectionRef = collection(db, 'projects');
-    const guessDocRef = doc(guessCollectionRef, tokenId);
-    const projectCollectionRef = doc(guessDocRef, 'sources', sourceId);
+    const sourceDocRef = doc(guessCollectionRef, tokenId);
+    const projectCollectionRef = doc(sourceDocRef, 'sources', sourceId);
     const docSnap = await getDoc(projectCollectionRef);
 
     if (!docSnap.exists()) {
