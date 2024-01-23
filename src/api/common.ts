@@ -3,7 +3,7 @@ import {getToken} from 'next-auth/jwt';
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
 import db from '../../configs/firebase';
-import {Source} from '../business/types';
+import {Source} from '../types';
 import {DataBase} from '../types/api';
 
 const secret = process.env.NEXTAUTH_SECRET;

@@ -2,8 +2,8 @@ import {collection, doc, getDoc} from 'firebase/firestore/lite';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
 import db from '../../../configs/firebase';
-import {obtainSource, obtainToken, writeSourceToDataBase} from '../../../src/api/api';
-import {Source} from '../../../src/business/types';
+import {obtainSource, obtainToken, writeSourceToDataBase} from '../../../src/api/common';
+import {Source} from '../../../src/types';
 import {DataBase} from '../../../src/types/api';
 
 async function saveConfig(req: NextApiRequest, res: NextApiResponse<DataBase>) {

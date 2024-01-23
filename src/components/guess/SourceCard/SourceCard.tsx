@@ -6,7 +6,7 @@ import {ArrowUpRightFromSquare, FloppyDisk, FolderTree} from '@gravity-ui/icons'
 import {pick} from 'lodash';
 import {useRouter} from 'next/router';
 
-import {Source} from '../../../business/types';
+import {Source} from '../../../types';
 import {OnSourceChangeArgs} from '../../../types/common';
 import {CardBase} from '../../CardBase/CardBase';
 import {CardHeaderContainer} from '../../CardHeaderContainer/CardHeaderContainer';

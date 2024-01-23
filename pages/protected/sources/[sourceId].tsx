@@ -6,9 +6,9 @@ import _ from 'lodash';
 import type {NextPage} from 'next';
 import {useRouter} from 'next/router';
 
-import {Source} from '../../../src/business/types';
 import {Page} from '../../../src/containers/Page/Page';
 import {SourceLayout} from '../../../src/containers/SourceLayout/SourceLayout';
+import {Source} from '../../../src/types';
 import {OnSourceChangeArgs} from '../../../src/types/common';
 import {deepCopy} from '../../../src/utils/json';
 import {isEvent} from '../../../src/utils/typeguards';

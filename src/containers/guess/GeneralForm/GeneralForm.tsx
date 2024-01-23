@@ -2,10 +2,10 @@ import React from 'react';
 
 import _ from 'lodash';
 
-import {Source} from '../../../business/types';
 import {Flex} from '../../../components/Flex/Flex';
 // import {PeriodCard} from '../../../components/guess/PeriodCard/PeriodCard';
 import {SourceDetailsCard} from '../../../components/guess/SourceDetailsCard/SourceDetailsCard';
+import {Source} from '../../../types';
 // import {SalariesCard} from '../../../components/guess/SalariesCard/SalariesCard';
 // import {UnitsCard} from '../../../components/guess/UnitsCard/UnitsCard';
 import {OnSourceChangeArgs} from '../../../types/common';

@@ -2,7 +2,7 @@ import {collection, doc, getDoc} from 'firebase/firestore/lite';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
 import db from '../../../configs/firebase';
-import {Source} from '../../../src/business/types';
+import {Source} from '../../../src/types';
 import {DataBase} from '../../../src/types/api';
 
 async function getSourceById(req: NextApiRequest, res: NextApiResponse<DataBase<Source | null>>) {

@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {FolderTree} from '@gravity-ui/icons';
 import _ from 'lodash';
 
-import {Source} from '../../../business/types';
+import {Source} from '../../../types';
 import {OnSourceChangeArgs} from '../../../types/common';
 import {CardBase} from '../../CardBase/CardBase';
 import {CardHeaderContainer} from '../../CardHeaderContainer/CardHeaderContainer';

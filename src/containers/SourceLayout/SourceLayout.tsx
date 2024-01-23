@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 
 // import {GetReportResponse} from '../../business/report';
-import {Source} from '../../business/types';
 import {Flex} from '../../components/Flex/Flex';
 import {NavButton} from '../../components/NavButton/NavButton';
+import {Source} from '../../types';
 import {OnSourceChangeArgs} from '../../types/common';
 import {GeneralForm} from '../guess/GeneralForm/GeneralForm';
 

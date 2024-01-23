@@ -3,11 +3,11 @@ import React, {useCallback, useEffect, useState} from 'react';
 import _ from 'lodash';
 import {useRouter} from 'next/router';
 
-import {Source} from '../../../business/types';
 import {Flex} from '../../../components/Flex/Flex';
 import {PopupContainer} from '../../../components/PopupContainer/PopupContainer';
 import {AddCard} from '../../../components/guess/AddCard/AddCard';
 import {SourceCard} from '../../../components/guess/SourceCard/SourceCard';
+import {Source} from '../../../types';
 import {OnSourceChangeArgs} from '../../../types/common';
 import {isEvent} from '../../../utils/typeguards';
 

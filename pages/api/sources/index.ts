@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 
 import db from '../../../configs/firebase';
-import {addSource, getSourceById, getSourcesList} from '../../../src/api/sources';
+import {addSource, getSourceById, getSourcesList, updateSource} from '../../../src/api/sources';
 import {DataBase} from '../../../src/types/api';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<DataBase>) {
@@ -17,6 +17,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<DataBa
 
     if (req.method === 'POST') {
         addSource({db, req, res});
+        return;
+    }
+
+    if (req.method === 'PATCH') {
+        updateSource({db, req, res});
         return;
     }
 

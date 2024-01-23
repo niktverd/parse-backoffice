@@ -2,12 +2,12 @@ import {Firestore, collection, doc, getDoc, getDocs} from 'firebase/firestore/li
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {uuid} from 'uuidv4';
 
-import {Source} from '../../src/business/types';
 import {initialSource} from '../../src/contexts/SourceContext';
 import {DataBase} from '../../src/types/api';
 import {deepCopy} from '../../src/utils/json';
+import {Source} from '../types';
 
-import {obtainToken, writeSourceToDataBase} from './api';
+import {obtainToken, writeSourceToDataBase} from './common';
 
 export type HandlerArgs<T> = {
     db: Firestore;
@@ -80,6 +80,31 @@ export async function addSource({req, res}: HandlerArgs<Source>) {
     res.json({
         ok: true,
         message: 'Source created',
+        data: savedSource,
+    });
+}
+export async function updateSource({req, res}: HandlerArgs<Source>) {
+    const tokenId = await obtainToken(req, res);
+
+    const source = req.body.source as Source | undefined;
+
+    if (!source) {
+        res.status(404).json({
+            ok: false,
+            message: 'source object is not provided',
+        });
+
+        return;
+    }
+
+    const savedSource = await writeSourceToDataBase({
+        source,
+        tokenId,
+    });
+
+    res.json({
+        ok: true,
+        message: 'Source updated',
         data: savedSource,
     });
 }

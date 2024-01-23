@@ -2,7 +2,7 @@ import React from 'react';
 
 import {uuid} from 'uuidv4';
 
-import {Source} from '../business/types';
+import {Source} from '../types';
 
 export const initialSource: Source = {
     data: {
