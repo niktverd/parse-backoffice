@@ -1,14 +1,41 @@
-import {collection, doc, getDoc, setDoc} from 'firebase/firestore/lite';
+import {collection, doc, getDoc, getDocs, setDoc} from 'firebase/firestore/lite';
 import {getToken} from 'next-auth/jwt';
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
 import db from '../../configs/firebase';
 import {Source} from '../types';
 import {DataBase} from '../types/api';
+import {User} from '../types/user';
 
 const secret = process.env.NEXTAUTH_SECRET;
 
 export const obtainToken = async (req: NextApiRequest, res: NextApiResponse<DataBase>) => {
+    const authorizationHeader = req.headers['authorization'];
+
+    if (authorizationHeader) {
+        const apiKeyValue = authorizationHeader.split('Bearer ')[1];
+        const userCollectionRef = collection(db, 'users');
+        const usersSnap = await getDocs(userCollectionRef);
+        if (usersSnap.empty) {
+            return '';
+        }
+
+        const users = usersSnap.docs.map(
+            (docSnap) => ({...docSnap.data(), id: docSnap.id} as User),
+        );
+        for (const user of users) {
+            for (const apiKey of user.apiKeys || []) {
+                if (apiKey.isActive && apiKey.value === apiKeyValue) {
+                    return user.id;
+                }
+            }
+        }
+
+        const errorMessage = 'You must provide an ApiKey.';
+        res.status(401).json({ok: false, message: errorMessage});
+        throw new Error(errorMessage);
+    }
+
     const token = await getToken({req, secret});
     if (!token?.sub) {
         const errorMessage = 'You must be logged in.';
