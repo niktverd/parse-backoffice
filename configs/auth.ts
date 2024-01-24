@@ -4,12 +4,16 @@ import {AuthOptions} from 'next-auth';
 import github from 'next-auth/providers/github';
 import googleProvider from 'next-auth/providers/google';
 
+const firebasePrivateKey = JSON.parse(
+    process.env.FIREBASE_PRIVATE_KEY_ADD || process.env.FIREBASE_PRIVATE_KEY || '{}',
+);
+
 export const authConfig: AuthOptions = {
     adapter: firestoreAdapter({
         credential: cert({
             projectId: process.env.FIREBASE_PROJECT_ID,
             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY,
+            privateKey: firebasePrivateKey.value,
         }),
     }),
     providers: [
