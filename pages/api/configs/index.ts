@@ -8,6 +8,16 @@ import {DataBase} from '../../../src/types/api';
 
 async function saveConfig(req: NextApiRequest, res: NextApiResponse<DataBase>) {
     const tokenId = await obtainToken(req, res);
+
+    if (!tokenId) {
+        res.status(404).json({
+            ok: false,
+            message: 'tokenId is not provided',
+        });
+
+        return;
+    }
+
     const source = await obtainSource(req, res);
 
     await writeSourceToDataBase({

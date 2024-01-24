@@ -1,9 +1,18 @@
-import {Firestore, collection, doc, getDoc, setDoc} from 'firebase/firestore/lite';
+import {
+    Firestore,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    setDoc,
+    where,
+} from 'firebase/firestore/lite';
+import {omit} from 'lodash';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {uuid} from 'uuidv4';
 
 import {DataBase} from '../types/api';
-import {User} from '../types/user';
 
 import {obtainToken} from './common';
 
@@ -17,55 +26,51 @@ export type ApiKey = {
     value: string;
     description: string;
     isActive: boolean;
+    tokenId?: string;
 };
 
 export async function getApiKeyList({req, res, db}: HandlerArgs<ApiKey[]>) {
     const tokenId = await obtainToken(req, res);
 
-    const userCollectionRef = collection(db, 'users');
-    const userDocRef = doc(userCollectionRef, tokenId);
-    const docSnap = await getDoc(userDocRef);
+    const apiKeyCollectionRef = collection(db, 'api-keys');
+    const q = query(apiKeyCollectionRef, where('tokenId', '==', tokenId));
+    const apiKeyDocsSnap = await getDocs(q);
 
-    if (!docSnap.exists()) {
-        res.status(404).json({ok: false, message: 'User is not found', data: []});
+    if (apiKeyDocsSnap.empty) {
+        res.status(404).json({ok: false, message: 'ApiKeys are not found', data: []});
         return;
     }
 
     res.json({
         ok: true,
-        message: 'Success',
-        data: (docSnap.data() as User).apiKeys || [],
+        message: 'Success1',
+        data: apiKeyDocsSnap.docs.map((docSnap) => omit(docSnap.data() as ApiKey, 'tokenId')) || [],
     });
 }
 
 export async function createApiKey({req, res, db}: HandlerArgs<ApiKey[]>) {
     const tokenId = await obtainToken(req, res);
     const {description = ''} = req.body as Pick<ApiKey, 'description'>;
+    const value = uuid();
 
-    const userCollectionRef = collection(db, 'users');
-    const userDocRef = doc(userCollectionRef, tokenId);
-    const userDocSnap = await getDoc(userDocRef);
+    const apiKeyCollectionRef = collection(db, 'api-keys');
+    const apiKeyDocRef = doc(apiKeyCollectionRef, value);
+    const apiKeyDocSnap = await getDoc(apiKeyDocRef);
 
-    if (!userDocSnap.exists()) {
+    if (apiKeyDocSnap.exists()) {
         res.status(404).json({
             ok: false,
-            message: 'User with given id is not found',
+            message: 'ApiKey is already exists',
         });
         return;
     }
 
-    const userData = userDocSnap.data() as User;
-    if (!userData.apiKeys) {
-        userData.apiKeys = [];
-    }
-
-    userData.apiKeys?.push({
+    await setDoc(apiKeyDocRef, {
         description,
-        value: uuid(),
+        value,
+        tokenId,
         isActive: true,
     });
-
-    await setDoc(userDocRef, userData);
 
     await getApiKeyList({db, req, res});
 }
@@ -74,32 +79,31 @@ export async function disableApiKey({req, res, db}: HandlerArgs<ApiKey[]>) {
     const tokenId = await obtainToken(req, res);
     const {value = ''} = req.body as Pick<ApiKey, 'value'>;
 
-    const userCollectionRef = collection(db, 'users');
-    const userDocRef = doc(userCollectionRef, tokenId);
-    const userDocSnap = await getDoc(userDocRef);
+    const apiKeyCollectionRef = collection(db, 'api-keys');
+    const apiKeyDocRef = doc(apiKeyCollectionRef, value);
+    const apiKeyDocSnap = await getDoc(apiKeyDocRef);
 
-    if (!userDocSnap.exists()) {
+    if (!apiKeyDocSnap.exists()) {
         res.status(404).json({
             ok: false,
-            message: 'User with given id is not found',
+            message: 'ApiKey with given id is not found',
         });
+
         return;
     }
 
-    const userData = userDocSnap.data() as User;
-    if (!userData.apiKeys) {
-        await getApiKeyList({db, req, res});
+    const apiKeyData = apiKeyDocSnap.data() as ApiKey;
+
+    if (apiKeyData.tokenId !== tokenId) {
+        res.status(401).json({
+            ok: false,
+            message: 'You have no right to manage this apiKey',
+        });
+
         return;
     }
 
-    const apiKeys = userData.apiKeys.map((apiKey) => {
-        return {
-            ...apiKey,
-            isActive: apiKey.value === value ? false : apiKey.value,
-        };
-    });
-
-    await setDoc(userDocRef, {...userData, apiKeys});
+    await setDoc(apiKeyDocRef, {...apiKeyData, isActive: false});
 
     await getApiKeyList({db, req, res});
 }

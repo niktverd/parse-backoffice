@@ -1,11 +1,12 @@
-import {collection, doc, getDoc, getDocs, setDoc} from 'firebase/firestore/lite';
+import {collection, doc, getDoc, setDoc} from 'firebase/firestore/lite';
 import {getToken} from 'next-auth/jwt';
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
 import db from '../../configs/firebase';
 import {Source} from '../types';
 import {DataBase} from '../types/api';
-import {User} from '../types/user';
+
+import {ApiKey} from './api-keys';
 
 const secret = process.env.NEXTAUTH_SECRET;
 
@@ -14,26 +15,19 @@ export const obtainToken = async (req: NextApiRequest, res: NextApiResponse<Data
 
     if (authorizationHeader) {
         const apiKeyValue = authorizationHeader.split('Bearer ')[1];
-        const userCollectionRef = collection(db, 'users');
-        const usersSnap = await getDocs(userCollectionRef);
-        if (usersSnap.empty) {
-            return '';
+        const apiKeysCollectionRef = collection(db, 'api-keys');
+        const apiKeyDocRef = doc(apiKeysCollectionRef, apiKeyValue);
+        const apiKeySnap = await getDoc(apiKeyDocRef);
+
+        if (!apiKeySnap.exists()) {
+            const errorMessage = 'You must provide an ApiKey.';
+            res.status(401).json({ok: false, message: errorMessage});
+            throw new Error(errorMessage);
         }
 
-        const users = usersSnap.docs.map(
-            (docSnap) => ({...docSnap.data(), id: docSnap.id} as User),
-        );
-        for (const user of users) {
-            for (const apiKey of user.apiKeys || []) {
-                if (apiKey.isActive && apiKey.value === apiKeyValue) {
-                    return user.id;
-                }
-            }
-        }
+        const apiKeyData = apiKeySnap.data() as ApiKey;
 
-        const errorMessage = 'You must provide an ApiKey.';
-        res.status(401).json({ok: false, message: errorMessage});
-        throw new Error(errorMessage);
+        return apiKeyData.tokenId;
     }
 
     const token = await getToken({req, secret});

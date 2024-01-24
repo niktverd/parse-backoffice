@@ -69,6 +69,15 @@ export async function getSourceById({req, res, db}: HandlerArgs<Source | null>) 
 export async function addSource({req, res}: HandlerArgs<Source>) {
     const tokenId = await obtainToken(req, res);
 
+    if (!tokenId) {
+        res.status(404).json({
+            ok: false,
+            message: 'tokenId is not provided',
+        });
+
+        return;
+    }
+
     const source = deepCopy(initialSource) as Source;
     source.data.id = uuid();
 
@@ -87,6 +96,15 @@ export async function updateSource({req, res}: HandlerArgs<Source>) {
     const tokenId = await obtainToken(req, res);
 
     const source = req.body.source as Source | undefined;
+
+    if (!tokenId) {
+        res.status(404).json({
+            ok: false,
+            message: 'tokenId is not provided',
+        });
+
+        return;
+    }
 
     if (!source) {
         res.status(404).json({
