@@ -7,6 +7,8 @@ import github from 'next-auth/providers/github';
 import googleProvider from 'next-auth/providers/google';
 
 const firebasePrivateKey = yaml.load(process.env.FIREBASE_PRIVATE_KEY || 'value: ""') as {value: string};
+// eslint-disable-next-line no-console
+console.log(firebasePrivateKey);
 
 export const authConfig: AuthOptions = {
     adapter: firestoreAdapter({
