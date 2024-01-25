@@ -47,7 +47,7 @@ export const SourceDetailsCard = (props: SourceDetailsCardProps) => {
                 inputClassName={s.input}
                 editable={editable}
                 onChange={onChange}
-                name={`sourceData.name`}
+                name={`data.name`}
             />
 
             <CardField
@@ -57,7 +57,7 @@ export const SourceDetailsCard = (props: SourceDetailsCardProps) => {
                 inputClassName={s.input}
                 editable={editable}
                 onChange={onChange}
-                name={`sourceData.description`}
+                name={`data.description`}
             />
         </CardBase>
     );

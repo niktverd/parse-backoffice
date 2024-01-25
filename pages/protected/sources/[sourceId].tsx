@@ -33,12 +33,12 @@ const Guess: NextPage = () => {
     }, [sourceId]);
 
     const saveSource = useCallback(async () => {
-        await fetch(`/api/configs`, {
-            method: 'POST',
+        await fetch(`/api/sources`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(source),
+            body: JSON.stringify({source}),
         });
 
         getSource();
