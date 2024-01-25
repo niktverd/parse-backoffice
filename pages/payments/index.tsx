@@ -2,8 +2,8 @@ import React from 'react';
 
 import type {NextPage} from 'next';
 
-import {Page} from '../../src/containers/Page/Page';
-import {Payments} from '../../src/containers/Payments/Payments';
+import {Page} from '../../src/ui/containers/Page/Page';
+import {Payments} from '../../src/ui/containers/Payments/Payments';
 
 // import styles from 'styles/Home.module.scss';
 

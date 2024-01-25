@@ -12,7 +12,9 @@ import {omit} from 'lodash';
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {uuid} from 'uuidv4';
 
-import {DataBase} from '../types/api';
+import {dbEntities} from '../db/dbEntities';
+import {ApiKey} from '../db/models';
+import {DataBase} from '../db/types';
 
 import {obtainToken} from './common';
 
@@ -22,17 +24,10 @@ export type HandlerArgs<T> = {
     res: NextApiResponse<DataBase<T>>;
 };
 
-export type ApiKey = {
-    value: string;
-    description: string;
-    isActive: boolean;
-    tokenId?: string;
-};
-
 export async function getApiKeyList({req, res, db}: HandlerArgs<ApiKey[]>) {
     const tokenId = await obtainToken(req, res);
 
-    const apiKeyCollectionRef = collection(db, 'api-keys');
+    const apiKeyCollectionRef = collection(db, dbEntities.ApiKeys);
     const q = query(apiKeyCollectionRef, where('tokenId', '==', tokenId));
     const apiKeyDocsSnap = await getDocs(q);
 
@@ -53,7 +48,7 @@ export async function createApiKey({req, res, db}: HandlerArgs<ApiKey[]>) {
     const {description = ''} = req.body as Pick<ApiKey, 'description'>;
     const value = uuid();
 
-    const apiKeyCollectionRef = collection(db, 'api-keys');
+    const apiKeyCollectionRef = collection(db, dbEntities.ApiKeys);
     const apiKeyDocRef = doc(apiKeyCollectionRef, value);
     const apiKeyDocSnap = await getDoc(apiKeyDocRef);
 
@@ -79,7 +74,7 @@ export async function disableApiKey({req, res, db}: HandlerArgs<ApiKey[]>) {
     const tokenId = await obtainToken(req, res);
     const {value = ''} = req.body as Pick<ApiKey, 'value'>;
 
-    const apiKeyCollectionRef = collection(db, 'api-keys');
+    const apiKeyCollectionRef = collection(db, dbEntities.ApiKeys);
     const apiKeyDocRef = doc(apiKeyCollectionRef, value);
     const apiKeyDocSnap = await getDoc(apiKeyDocRef);
 

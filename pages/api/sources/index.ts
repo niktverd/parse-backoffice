@@ -2,7 +2,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 
 import db from '../../../configs/firebase';
 import {addSource, getSourceById, getSourcesList, updateSource} from '../../../src/api/sources';
-import {DataBase} from '../../../src/types/api';
+import {DataBase} from '../../../src/db/types';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<DataBase>) {
     if (req.method === 'GET' && !req.query.sourceId) {

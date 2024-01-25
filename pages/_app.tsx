@@ -3,9 +3,9 @@ import React, {SetStateAction, useState} from 'react';
 import {SessionProvider} from 'next-auth/react';
 import type {AppProps} from 'next/app';
 
-import {SourceContext, initialSource} from '../src/contexts/SourceContext';
-import useStorage from '../src/hooks/useStorage';
-import {Source} from '../src/types';
+import {Source} from '../src/db/models';
+import {SourceContext, initialSource} from '../src/ui/contexts/SourceContext';
+import useStorage from '../src/ui/hooks/useStorage';
 
 import '../styles/globals.scss';
 

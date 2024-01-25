@@ -2,10 +2,11 @@ import {Firestore, collection, doc, getDoc, getDocs} from 'firebase/firestore/li
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {uuid} from 'uuidv4';
 
-import {initialSource} from '../../src/contexts/SourceContext';
-import {DataBase} from '../../src/types/api';
 import {deepCopy} from '../../src/utils/json';
-import {Source} from '../types';
+import {dbEntities} from '../db/dbEntities';
+import {Source} from '../db/models';
+import {DataBase} from '../db/types';
+import {initialSource} from '../ui/contexts/SourceContext';
 
 import {obtainToken, writeSourceToDataBase} from './common';
 
@@ -18,9 +19,9 @@ export type HandlerArgs<T> = {
 export async function getSourcesList({req, res, db}: HandlerArgs<Source[]>) {
     const tokenId = await obtainToken(req, res);
 
-    const guessCollectionRef = collection(db, 'sources');
-    const sourceDocRef = doc(guessCollectionRef, tokenId);
-    const sourceCollectionRef = collection(sourceDocRef, 'sources');
+    const folderCollectionRef = collection(db, dbEntities.Folders);
+    const sourceDocRef = doc(folderCollectionRef, tokenId);
+    const sourceCollectionRef = collection(sourceDocRef, dbEntities.Sources);
     const docSnaps = await getDocs(sourceCollectionRef);
 
     if (docSnaps.empty) {
@@ -45,9 +46,9 @@ export async function getSourceById({req, res, db}: HandlerArgs<Source | null>) 
         return;
     }
 
-    const guessCollectionRef = collection(db, 'sources');
-    const sourceDocRef = doc(guessCollectionRef, tokenId);
-    const sourceCollectionRef = doc(sourceDocRef, 'sources', sourceId);
+    const folderCollectionRef = collection(db, dbEntities.Folders);
+    const sourceDocRef = doc(folderCollectionRef, tokenId);
+    const sourceCollectionRef = doc(sourceDocRef, dbEntities.Sources, sourceId);
     const docSnap = await getDoc(sourceCollectionRef);
 
     if (!docSnap.exists()) {

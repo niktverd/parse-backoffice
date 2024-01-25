@@ -3,8 +3,9 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 
 import db from '../../../configs/firebase';
 import {obtainSource, obtainToken, writeSourceToDataBase} from '../../../src/api/common';
-import {Source} from '../../../src/types';
-import {DataBase} from '../../../src/types/api';
+import {dbEntities} from '../../../src/db/dbEntities';
+import {Source} from '../../../src/db/models';
+import {DataBase} from '../../../src/db/types';
 
 async function saveConfig(req: NextApiRequest, res: NextApiResponse<DataBase>) {
     const tokenId = await obtainToken(req, res);
@@ -40,9 +41,9 @@ async function getConfig(req: NextApiRequest, res: NextApiResponse<DataBase<Sour
         return;
     }
 
-    const guessCollectionRef = collection(db, 'sources');
-    const sourceDocRef = doc(guessCollectionRef, tokenId);
-    const sourceRef = doc(sourceDocRef, 'sources', sourceId);
+    const folderCollectionRef = collection(db, dbEntities.Folders);
+    const sourceDocRef = doc(folderCollectionRef, tokenId);
+    const sourceRef = doc(sourceDocRef, dbEntities.Sources, sourceId);
     const docSnap = await getDoc(sourceRef);
 
     if (!docSnap.exists()) {

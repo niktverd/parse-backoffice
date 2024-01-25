@@ -6,10 +6,10 @@ import _ from 'lodash';
 import type {NextPage} from 'next';
 import {useRouter} from 'next/router';
 
-import {Page} from '../../../src/containers/Page/Page';
-import {SourceLayout} from '../../../src/containers/SourceLayout/SourceLayout';
-import {Source} from '../../../src/types';
+import {Source} from '../../../src/db/models';
 import {OnSourceChangeArgs} from '../../../src/types/common';
+import {Page} from '../../../src/ui/containers/Page/Page';
+import {SourceLayout} from '../../../src/ui/containers/SourceLayout/SourceLayout';
 import {deepCopy} from '../../../src/utils/json';
 import {isEvent} from '../../../src/utils/typeguards';
 

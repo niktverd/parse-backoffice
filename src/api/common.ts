@@ -3,10 +3,9 @@ import {getToken} from 'next-auth/jwt';
 import type {NextApiRequest, NextApiResponse} from 'next/types';
 
 import db from '../../configs/firebase';
-import {Source} from '../types';
-import {DataBase} from '../types/api';
-
-import {ApiKey} from './api-keys';
+import {dbEntities} from '../db/dbEntities';
+import {ApiKey, Source} from '../db/models';
+import {DataBase} from '../db/types';
 
 const secret = process.env.NEXTAUTH_SECRET;
 
@@ -15,7 +14,7 @@ export const obtainToken = async (req: NextApiRequest, res: NextApiResponse<Data
 
     if (authorizationHeader) {
         const apiKeyValue = authorizationHeader.split('Bearer ')[1];
-        const apiKeysCollectionRef = collection(db, 'api-keys');
+        const apiKeysCollectionRef = collection(db, dbEntities.ApiKeys);
         const apiKeyDocRef = doc(apiKeysCollectionRef, apiKeyValue);
         const apiKeySnap = await getDoc(apiKeyDocRef);
 
@@ -72,16 +71,17 @@ export const writeSourceToDataBase = async ({
     source: Source;
     tokenId: string;
 }) => {
-    const guessCollectionRef = collection(db, 'sources');
-    const sourceDocRef = doc(guessCollectionRef, tokenId);
-    const sourceDoc = await getDoc(sourceDocRef);
-    if (!sourceDoc.exists()) {
-        await setDoc(sourceDocRef, {userId: tokenId});
+    const foldersCollectionRef = collection(db, dbEntities.Folders);
+    const foldersDocRef = doc(foldersCollectionRef, tokenId);
+    const foldersDoc = await getDoc(foldersDocRef);
+
+    if (!foldersDoc.exists()) {
+        await setDoc(foldersDocRef, {userId: tokenId});
     }
 
-    const updatedBody = {...source};
+    const updatedBody = {...source, id: source.data.id};
 
-    const sourceRef = doc(sourceDocRef, 'sources', source.data.id);
+    const sourceRef = doc(foldersDocRef, dbEntities.Sources, source.data.id);
     await setDoc(sourceRef, updatedBody);
 
     return updatedBody;
