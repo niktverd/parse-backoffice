@@ -37,12 +37,12 @@ export const SourceList = (_props: SourceListProps) => {
                 return;
             }
 
-            await fetch('/api/configs/', {
-                method: 'POST',
+            await fetch('/api/sources/', {
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(sourceItem),
+                body: JSON.stringify({source: sourceItem}),
             });
             fetchSources();
         },

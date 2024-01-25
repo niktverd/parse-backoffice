@@ -31,9 +31,9 @@ export const SourceCard = (props: SourceCardProps) => {
     const router = useRouter();
 
     useEffect(() => {
-        const project = getSource(props);
+        const source = getSource(props);
         try {
-            deepEqual(initialSource, project);
+            deepEqual(initialSource, source);
             setIsDirty(false);
         } catch (error) {
             setIsDirty(true);
