@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 
-// import {GetReportResponse} from '../../business/report';
+import _ from 'lodash';
+
 import {Source} from '../../../db/models';
 import {OnSourceChangeArgs} from '../../../types/common';
 import {Flex} from '../../components/Flex/Flex';
 import {NavButton} from '../../components/NavButton/NavButton';
-import {GeneralForm} from '../GeneralForm/GeneralForm';
+import {ConfigsForm} from '../ConfigsForm/ConfigsForm';
+import {DataForm} from '../DataForm/DataForm';
 
 import styles from './SourceLayout.module.scss';
 
@@ -20,9 +22,9 @@ type SourceLayoutProps = {
 
 enum Section {
     Overview = 'overview',
-    General = 'general',
-    Plans = 'plans',
-    Products = 'products',
+    Data = 'data',
+    ConfigsList = 'configs-list',
+    ConfigsItem = 'configs-item',
 }
 
 export const SourceLayout = ({
@@ -32,36 +34,13 @@ export const SourceLayout = ({
     isDirty = false,
     saveSource,
 }: SourceLayoutProps) => {
-    // const [data, setData] = useState<GetReportResponse[] | null>(null);
     const [section, setSection] = useState<Section>(Section.Overview);
 
     useEffect(() => {
         if (section !== Section.Overview) {
             return;
         }
-
-        // eslint-disable-next-line no-console
-        // setData(getReport(sourceData, project));
     }, [section, source]);
-
-    // const handleAddChart = () => {
-    //     onChange({
-    //         path: `viewConfigs`,
-    //         value: [
-    //             ...viewConfigs,
-    //             {title: `Chart#${viewConfigs.length}`, description: '-', options: {}},
-    //         ],
-    //     });
-    // };
-
-    // const handleDeleteChart = (index: number) => () => {
-    //     const newConfig = deepCopy(viewConfigs);
-    //     newConfig.splice(index, 1);
-    //     onChange({
-    //         path: `viewConfigs`,
-    //         value: newConfig,
-    //     });
-    // };
 
     return (
         <Flex className={styles.container}>
@@ -72,19 +51,19 @@ export const SourceLayout = ({
                     selected={section === Section.Overview}
                 />
                 <NavButton
-                    text="General"
-                    onClick={() => setSection(Section.General)}
-                    selected={section === Section.General}
+                    text="Configs: List"
+                    onClick={() => setSection(Section.ConfigsList)}
+                    selected={section === Section.ConfigsList}
                 />
                 <NavButton
-                    text="Products"
-                    onClick={() => setSection(Section.Products)}
-                    selected={section === Section.Products}
+                    text="Configs: Item"
+                    onClick={() => setSection(Section.ConfigsItem)}
+                    selected={section === Section.ConfigsItem}
                 />
                 <NavButton
-                    text="Plans"
-                    onClick={() => setSection(Section.Plans)}
-                    selected={section === Section.Plans}
+                    text="Data"
+                    onClick={() => setSection(Section.Data)}
+                    selected={section === Section.Data}
                 />
                 <hr />
                 {previewOnly ? null : (
@@ -99,50 +78,21 @@ export const SourceLayout = ({
                 )}
             </div>
             <div className={styles['section']}>
-                {/* {section === Section.Overview && data ? (
+                {section === Section.Overview ? (
                     <div>
-                        {viewConfigs.map((_viewConfig, index) => {
-                            return (
-                                <Chart
-                                    onChange={onChange}
-                                    namePrefix={`viewConfigs[${index}]`}
-                                    key={index}
-                                    reportData={data}
-                                    project={project}
-                                    handleDeleteChart={handleDeleteChart(index)}
-                                    previewOnly={previewOnly}
-                                />
-                            );
-                        })}
-                        {previewOnly ? null : (
-                            <button
-                                className={styles['charts-add-button']}
-                                onClick={handleAddChart}
-                            >
-                                <CirclePlusFill width={32} height={32} />
-                            </button>
-                        )}
+                        Overview
+                        <pre>{JSON.stringify(source, null, 3)}</pre>
                     </div>
-                ) : null} */}
-                {section === Section.General ? (
-                    <GeneralForm previewOnly={previewOnly} source={source} onChange={onChange} />
                 ) : null}
-                {/* {section === Section.Products ? (
-                    <GuessProductList
-                        previewOnly={previewOnly}
-                        products={project.sourceData.products}
-                        onChange={onChange}
-                        project={project}
-                    />
+                {section === Section.Data ? (
+                    <DataForm previewOnly={previewOnly} source={source} onChange={onChange} />
                 ) : null}
-                {section === Section.Plans ? (
-                    <GuessPlanList
-                        project={project}
-                        previewOnly={previewOnly}
-                        plans={project.sourceData.plans}
-                        onChange={onChange}
-                    />
-                ) : null} */}
+                {section === Section.ConfigsItem ? (
+                    <ConfigsForm prefix="item" source={source} onChange={onChange} />
+                ) : null}
+                {section === Section.ConfigsList ? (
+                    <ConfigsForm prefix="list" source={source} onChange={onChange} />
+                ) : null}
             </div>
         </Flex>
     );

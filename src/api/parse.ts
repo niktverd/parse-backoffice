@@ -3,7 +3,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 
 import {Source} from '../db/models';
 import {DataBase} from '../db/types';
-import { getPageByUrl } from '../parse';
+import {getPageByUrl} from '../parse';
 
 export type HandlerArgs<T> = {
     db: Firestore;

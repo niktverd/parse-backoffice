@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 import axios from 'axios';
-import { doc, getDoc } from 'firebase/firestore/lite';
+import {doc, getDoc} from 'firebase/firestore/lite';
 import {DOMParser as Dom} from 'xmldom';
 import xpath from 'xpath';
 
 import db from '../../configs/firebase';
-import { Source } from '../db/models';
+import {Source} from '../db/models';
 
 type GetPageByUrlArgs = {
     url: string;
-}
+};
 
 type CommonPartArgs = {
     strings: string[];
@@ -27,7 +27,7 @@ const commonPart = ({
     shortestString = '',
 }: CommonPartArgs): string => {
     let localShortestString = shortestString;
-    
+
     if (!shortestString) {
         strings.sort((a, b) => b.length - a.length);
         localShortestString = strings[0] || '';
@@ -35,7 +35,7 @@ const commonPart = ({
             strings,
             currentIndex: Math.round((localShortestString.length - 1) / 2),
             previousIndexLeft,
-            previousIndexRight: localShortestString.length -1,
+            previousIndexRight: localShortestString.length - 1,
             shortestString: localShortestString,
         });
     }
@@ -69,11 +69,14 @@ const commonPart = ({
 
 export const getPageByUrl = async ({url}: GetPageByUrlArgs) => {
     const {data, status} = await axios.get(url);
-    
+
     if (status < 200 && status > 299) {
         return;
     }
-    const docRef = doc(db, 'folders/Cp3YffurrZEdlrWzs02X/sources/6dbd3c07-c16d-49d6-ab2d-af201cfa7d05');
+    const docRef = doc(
+        db,
+        'folders/Cp3YffurrZEdlrWzs02X/sources/6dbd3c07-c16d-49d6-ab2d-af201cfa7d05',
+    );
     const docSnap = await getDoc(docRef);
     const source = docSnap.data() as Source;
     const config = source.configs.item;
@@ -104,8 +107,8 @@ export const getPageByUrl = async ({url}: GetPageByUrlArgs) => {
                 console.log(chNode.nodeName);
                 console.log(chNode.textContent);
             });
-        })
-    })
-    
+        });
+    });
+
     console.log(config);
 };
