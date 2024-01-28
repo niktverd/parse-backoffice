@@ -7,7 +7,8 @@ import {OnSourceChangeArgs} from '../../../types/common';
 import {Flex} from '../../components/Flex/Flex';
 import {NavButton} from '../../components/NavButton/NavButton';
 import {ConfigsForm} from '../ConfigsForm/ConfigsForm';
-import {DataForm} from '../DataForm/DataForm';
+import {DataList} from '../DataList/DataList';
+import {SettingsForm} from '../SettingsForm/SettingsForm';
 
 import styles from './SourceLayout.module.scss';
 
@@ -25,6 +26,7 @@ enum Section {
     Data = 'data',
     ConfigsList = 'configs-list',
     ConfigsItem = 'configs-item',
+    SourceSettings = 'source-settings',
 }
 
 export const SourceLayout = ({
@@ -61,6 +63,11 @@ export const SourceLayout = ({
                     selected={section === Section.ConfigsItem}
                 />
                 <NavButton
+                    text="Source Settings"
+                    onClick={() => setSection(Section.SourceSettings)}
+                    selected={section === Section.SourceSettings}
+                />
+                <NavButton
                     text="Data"
                     onClick={() => setSection(Section.Data)}
                     selected={section === Section.Data}
@@ -84,8 +91,8 @@ export const SourceLayout = ({
                         <pre>{JSON.stringify(source, null, 3)}</pre>
                     </div>
                 ) : null}
-                {section === Section.Data ? (
-                    <DataForm previewOnly={previewOnly} source={source} onChange={onChange} />
+                {section === Section.SourceSettings ? (
+                    <SettingsForm previewOnly={previewOnly} source={source} onChange={onChange} />
                 ) : null}
                 {section === Section.ConfigsItem ? (
                     <ConfigsForm prefix="item" source={source} onChange={onChange} />
@@ -93,6 +100,7 @@ export const SourceLayout = ({
                 {section === Section.ConfigsList ? (
                     <ConfigsForm prefix="list" source={source} onChange={onChange} />
                 ) : null}
+                {section === Section.Data ? <DataList source={source} /> : null}
             </div>
         </Flex>
     );

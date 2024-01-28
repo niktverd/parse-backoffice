@@ -1,9 +1,8 @@
 import {Firestore} from 'firebase/firestore/lite';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
-import {Source} from '../db/models';
 import {DataBase} from '../db/types';
-import {getPageByUrl} from '../parse';
+import {getFromBackoffice, getPageByUrl} from '../parse';
 
 export type HandlerArgs<T> = {
     db: Firestore;
@@ -11,11 +10,15 @@ export type HandlerArgs<T> = {
     res: NextApiResponse<DataBase<T>>;
 };
 
-export async function getPageByUrlApi({res}: HandlerArgs<Source[]>) {
+export async function getPageByUrlApi({res}: HandlerArgs<{}>) {
     getPageByUrl({url: 'https://boards.eu.greenhouse.io/abbyy'});
 
     res.json({
         ok: true,
         message: 'Success',
     });
+}
+
+export async function getFromBackofficeApi({req, res}: HandlerArgs<{}>) {
+    getFromBackoffice({url: 'https://boards.eu.greenhouse.io/abbyy', req, res});
 }

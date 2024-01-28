@@ -1,17 +1,12 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 
 import db from '../../../configs/firebase';
-import {getFromBackofficeApi, getPageByUrlApi} from '../../../src/api/parse';
+import {getSourceData} from '../../../src/api/data';
 import {DataBase} from '../../../src/db/types';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<DataBase>) {
     if (req.method === 'GET') {
-        getPageByUrlApi({db, req, res});
-        return;
-    }
-
-    if (req.method === 'POST') {
-        getFromBackofficeApi({db, req, res});
+        getSourceData({db, req, res});
         return;
     }
 

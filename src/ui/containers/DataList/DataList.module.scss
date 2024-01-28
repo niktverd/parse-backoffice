@@ -1,0 +1,33 @@
+.container {
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    flex-wrap: wrap;
+
+    min-height: 100vh;
+    width: 100%;
+    min-width: 400px;
+
+    color: #ffffff;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.list {
+    margin-top: 32px;
+}
+
+.row {
+    border: 3px solid rgb(0 0 0 / 0.2);
+}
+
+.row-item {
+    width: 25%;
+    overflow: scroll;
+    border: 1px solid rgb(0 0 0 / 0.2);
+    padding: 2px 4px
+}
+.header {
+    width: 100%;
+}
+.title {
+    flex-grow: 1;
+}
