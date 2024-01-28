@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {uuid} from 'uuidv4';
 
 import {Source} from '../../db/models';
@@ -12,17 +10,7 @@ export const initialSource: Source = {
         status: 'stop',
     },
     configs: {
-        list: {},
-        item: {},
+        list: {container: ''},
+        item: {container: ''},
     },
 };
-
-export type SourceContextProps = {
-    source: Source;
-    setSource: React.Dispatch<React.SetStateAction<Source>>;
-};
-
-export const SourceContext = React.createContext<SourceContextProps>({
-    source: initialSource,
-    setSource: () => null,
-});

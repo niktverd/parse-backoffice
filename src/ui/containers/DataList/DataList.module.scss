@@ -23,11 +23,14 @@
     width: 25%;
     overflow: scroll;
     border: 1px solid rgb(0 0 0 / 0.2);
-    padding: 2px 4px
+    padding: 2px 4px;
+    max-height: 50px;
 }
+
 .header {
     width: 100%;
 }
+
 .title {
     flex-grow: 1;
 }
