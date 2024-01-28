@@ -74,8 +74,21 @@ export const ConfigsForm = ({source, onChange, prefix}: ConfigsFormProps) => {
         );
     }, [dest, newKey, onChange, source]);
 
+    const notice = useMemo(() => {
+        const obj = _.get(source, dest);
+        if (obj.container) {
+            return null;
+        }
+        return <Flex direction="column" className={s.error}>
+            Add &apos;container&apos; key
+        </Flex>
+    }, [dest, source])
+
     return (
         <Flex className={s.container} direction="column">
+            <Flex direction="column">
+                {notice}
+            </Flex>
             <Flex direction="column">
                 <h2>Add new option</h2>
 

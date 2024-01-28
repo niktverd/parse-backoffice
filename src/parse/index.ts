@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import axios from 'axios';
-import {doc, getDoc} from 'firebase/firestore/lite';
+import {doc, getDoc, setDoc} from 'firebase/firestore/lite';
 import {DOMParser as Dom} from 'xmldom';
 import xpath from 'xpath';
 
@@ -9,62 +9,6 @@ import {Source} from '../db/models';
 
 type GetPageByUrlArgs = {
     url: string;
-};
-
-type CommonPartArgs = {
-    strings: string[];
-    currentIndex?: number;
-    previousIndexLeft?: number;
-    previousIndexRight?: number;
-    shortestString?: string;
-};
-
-const commonPart = ({
-    strings = [],
-    currentIndex = 0,
-    previousIndexLeft = 0,
-    previousIndexRight = Infinity,
-    shortestString = '',
-}: CommonPartArgs): string => {
-    let localShortestString = shortestString;
-
-    if (!shortestString) {
-        strings.sort((a, b) => b.length - a.length);
-        localShortestString = strings[0] || '';
-        return commonPart({
-            strings,
-            currentIndex: Math.round((localShortestString.length - 1) / 2),
-            previousIndexLeft,
-            previousIndexRight: localShortestString.length - 1,
-            shortestString: localShortestString,
-        });
-    }
-
-    const stem = localShortestString.slice(0, currentIndex);
-
-    if (previousIndexLeft === previousIndexRight) {
-        return stem;
-    }
-
-    const filtered = strings.filter((str) => str.includes(stem));
-
-    if (filtered.length < strings.length) {
-        return commonPart({
-            strings,
-            currentIndex: Math.floor((currentIndex + previousIndexLeft) / 2),
-            previousIndexLeft,
-            previousIndexRight: currentIndex - 1,
-            shortestString: localShortestString,
-        });
-    } else {
-        return commonPart({
-            strings,
-            currentIndex: Math.ceil((currentIndex + previousIndexRight) / 2),
-            previousIndexLeft: currentIndex,
-            previousIndexRight,
-            shortestString: localShortestString,
-        });
-    }
 };
 
 export const getPageByUrl = async ({url}: GetPageByUrlArgs) => {
@@ -83,13 +27,23 @@ export const getPageByUrl = async ({url}: GetPageByUrlArgs) => {
 
     const entries = Object.entries(config);
 
-    const xPaths = Object.values(config);
-    let parentXPath = commonPart({strings: xPaths});
-    const parentXPathFound = parentXPath;
-    if (parentXPath.endsWith('/')) {
-        parentXPath = parentXPath.replace(/\/$/, '');
-    }
+    const childrenXpaths = entries.filter(([key]) => key !== 'container');
+    const parentXPath = entries.reduce((acc: string | null, [key, value]) => {
+        if (acc) {
+            return acc;
+        }
+        
+        if (key === 'container') {
+            return value;
+        }
 
+        return acc;
+    }, null);
+    console.log('\n\n', parentXPath, '\n\n');
+
+    if (!parentXPath) {
+        return;
+    }
     const document = new Dom().parseFromString(data);
     const nodes = xpath.select(parentXPath, document);
 
@@ -98,16 +52,29 @@ export const getPageByUrl = async ({url}: GetPageByUrlArgs) => {
     }
 
     console.log(nodes.length);
-    nodes.forEach((node) => {
-        entries.forEach(([field, xPath]) => {
-            console.log(entries, xPath, xPath.split(parentXPathFound)[1]);
-            const childNodes = xpath.select(xPath.split(parentXPathFound)[1], node) as Node[];
+    nodes.forEach(async (node) => {
+        const objectToSave: Record<string, string> = {};
+        childrenXpaths.forEach(([field, xPath]) => {
+            const childNodes = xpath.select(xPath.split(parentXPath + '/')[1], node) as Node[];
             childNodes?.forEach((chNode) => {
-                console.log(`\n\n\n\nfield: ${field}` + chNode.toString());
-                console.log(chNode.nodeName);
-                console.log(chNode.textContent);
+                objectToSave[field] = chNode.textContent || '';
+                if (chNode.nodeName === 'a') {
+                    const hrefNode = xpath.select('@href', chNode) as Attr[];
+                    // console.log(hrefNode);
+                    if (hrefNode[0]) {
+                        objectToSave.href = hrefNode[0].value;
+                        objectToSave.id = objectToSave.href.split('/').filter(Boolean).join('-');
+                    }
+                }
             });
         });
+    
+        const safeRef = doc(
+            db,
+            'folders/Cp3YffurrZEdlrWzs02X/database/' + objectToSave.id,
+        );
+    
+        await setDoc(safeRef, objectToSave);
     });
 
     console.log(config);

@@ -1,3 +1,6 @@
+export type Selector = Record<string, string> & {
+    container: string;
+}
 export type Source = {
     data: {
         id: string;
@@ -6,7 +9,7 @@ export type Source = {
         status: 'run' | 'stop';
     };
     configs: {
-        list: Record<string, string>;
-        item: Record<string, string>;
+        list: Selector;
+        item: Selector;
     };
 };
