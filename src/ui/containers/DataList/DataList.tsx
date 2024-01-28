@@ -1,8 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
 import axios from 'axios';
+import {saveAs} from 'file-saver';
 import _ from 'lodash';
+import Papa from 'papaparse';
 
+export const convertToCSV = (data: Record<string, string>[]) => {
+    const csv = Papa.unparse(data);
+    return csv;
+};
 import {Source} from '../../../db/models';
 import {Flex} from '../../components/Flex/Flex';
 
@@ -37,12 +43,26 @@ export const DataList = ({source}: DataListProps) => {
                 <Flex direction="column" className={s.title}>
                     {source.data.id}
                 </Flex>
-                <Flex direction="column" className={s.controls}>
+                <Flex direction="row" className={s.controls} gap="l">
+                    <button
+                        onClick={() => {
+                            const csvData = convertToCSV(list);
+                            const blob = new Blob([csvData], {type: 'text/csv;charset=utf-8'});
+                            saveAs(
+                                blob,
+                                `parsing-results-${new Date()
+                                    .toISOString()
+                                    .replace(/[^0-9]/g, '')}.csv`,
+                            );
+                        }}
+                    >
+                        Save CSV
+                    </button>
                     {isParseClicked ? (
                         <button onClick={() => getList()}>Load Data</button>
                     ) : (
                         <button
-                            onClick={() => {
+                            onDoubleClick={() => {
                                 axios.post('/api/parse', {
                                     sourceId: source.data.id,
                                 });
@@ -50,7 +70,7 @@ export const DataList = ({source}: DataListProps) => {
                                 setIsParseClicked(true);
                             }}
                         >
-                            Parse
+                            Parse (double click)
                         </button>
                     )}
                 </Flex>
