@@ -59,6 +59,15 @@ export const SourceDetailsCard = (props: SourceDetailsCardProps) => {
                 onChange={onChange}
                 name={`data.description`}
             />
+            <CardField
+                label="Link"
+                value={_.get(source, 'data.link')}
+                type="text"
+                inputClassName={s.input}
+                editable={editable}
+                onChange={onChange}
+                name={`data.link`}
+            />
         </CardBase>
     );
 };

@@ -14,6 +14,7 @@ export type Source = {
     id: string;
     name: string;
     description: string;
+    link: string;
     status: 'run' | 'stop';
   };
   configs: {
@@ -31,19 +32,19 @@ export type Source = {
 
 ### Список источников данных
 
-`/api/public` GET возвращает список источников данных
+`/api/public/sources` GET возвращает список источников данных
 
 @return `Source[]`
 
 ### Источник данных
 
-`/api/public?sourceId=<SOURCE_ID>` GET возвращает источник данных по ID источника
+`/api/public/sources/?sourceId=<SOURCE_ID>` GET возвращает источник данных по ID источника
 
 @return `Source`
 
 ### Добавление источника данных
 
-`/api/public` POST Добавляет источник и возвращает добавленный
+`/api/public/sources` POST Добавляет источник и возвращает добавленный
 
 @return `Source`
 
@@ -51,7 +52,7 @@ export type Source = {
 
 ### Обновление источника данных
 
-`/api/public` PATCH Обновляет источник и возвращает обновленный
+`/api/public/sources` PATCH Обновляет источник и возвращает обновленный
 
 @return `Source`
 

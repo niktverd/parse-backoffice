@@ -11,7 +11,7 @@ export type HandlerArgs<T> = {
 };
 
 export async function getPageByUrlApi({res}: HandlerArgs<{}>) {
-    getPageByUrl({url: 'https://boards.eu.greenhouse.io/abbyy'});
+    getPageByUrl();
 
     res.json({
         ok: true,
@@ -20,5 +20,5 @@ export async function getPageByUrlApi({res}: HandlerArgs<{}>) {
 }
 
 export async function getFromBackofficeApi({req, res}: HandlerArgs<{}>) {
-    getFromBackoffice({url: 'https://boards.eu.greenhouse.io/abbyy', req, res});
+    getFromBackoffice({req, res});
 }

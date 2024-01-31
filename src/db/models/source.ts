@@ -7,6 +7,7 @@ export type Source = {
         id: string;
         name: string;
         description: string;
+        link: string;
         status: 'run' | 'stop';
     };
     configs: {

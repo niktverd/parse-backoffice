@@ -7,6 +7,7 @@ export const initialSource: Source = {
         id: uuid(),
         name: '',
         description: '',
+        link: '',
         status: 'stop',
     },
     configs: {

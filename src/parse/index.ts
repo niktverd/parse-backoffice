@@ -73,22 +73,24 @@ const parseItem = async ({config, url}: ParseItemArgs): Promise<Record<string, s
     return null;
 };
 
-type GetPageByUrlArgs = {
-    url: string;
-};
-
-export const getPageByUrl = async ({url}: GetPageByUrlArgs) => {
-    const {data, status} = await axios.get(url);
-
-    if (status < 200 && status > 299) {
-        return;
-    }
+export const getPageByUrl = async () => {
     const docRef = doc(
         db,
         'folders/Cp3YffurrZEdlrWzs02X/sources/7af823a2-9103-4061-95c5-b3152f1229b7',
     );
     const docSnap = await getDoc(docRef);
     const source = docSnap.data() as Source;
+
+    if (!source.data.link) {
+        return;
+    }
+
+    const {data, status} = await axios.get(source.data.link);
+
+    if (status < 200 && status > 299) {
+        return;
+    }
+
     const listConfig = source.configs.list;
 
     const entries = Object.entries(listConfig);
@@ -143,12 +145,11 @@ export const getPageByUrl = async ({url}: GetPageByUrlArgs) => {
 };
 
 type GetFromBackofficeArgs<T> = {
-    url: string;
     req: NextApiRequest;
     res: NextApiResponse<DataBase<T>>;
 };
 
-export const getFromBackoffice = async ({url, req, res}: GetFromBackofficeArgs<{}>) => {
+export const getFromBackoffice = async ({req, res}: GetFromBackofficeArgs<{}>) => {
     const tokenId = await obtainToken(req, res);
 
     if (!tokenId) {
@@ -171,14 +172,20 @@ export const getFromBackoffice = async ({url, req, res}: GetFromBackofficeArgs<{
         return;
     }
 
-    const {data, status} = await axios.get(url);
+    const docRef = doc(db, `folders/${tokenId}/sources/${sourceId}`);
+    const docSnap = await getDoc(docRef);
+    const source = docSnap.data() as Source;
+
+    if (!source.data.link) {
+        return;
+    }
+
+    const {data, status} = await axios.get(source.data.link);
 
     if (status < 200 && status > 299) {
         return;
     }
-    const docRef = doc(db, `folders/${tokenId}/sources/${sourceId}`);
-    const docSnap = await getDoc(docRef);
-    const source = docSnap.data() as Source;
+
     const listConfig = source.configs.list;
     const itemConfig = source.configs.item;
 
@@ -223,7 +230,7 @@ export const getFromBackoffice = async ({url, req, res}: GetFromBackofficeArgs<{
                         if (itemConfig && objectToSave.href) {
                             const itemObject = await parseItem({
                                 config: itemConfig,
-                                url: urlApi.resolve(url, objectToSave.href),
+                                url: urlApi.resolve(source.data.link, objectToSave.href),
                             });
                             // console.log(itemObject);
                             // eslint-disable-next-line max-depth
