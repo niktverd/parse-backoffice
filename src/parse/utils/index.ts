@@ -53,3 +53,11 @@ export const commonPart = ({
         });
     }
 };
+
+export const prepareXpath = (xpath: string) => {
+    if (xpath.startsWith('/html/body/')) {
+        return xpath.replace('/html/body/', '//');
+    }
+
+    return xpath;
+}

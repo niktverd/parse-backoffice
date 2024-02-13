@@ -13,6 +13,8 @@ import {obtainToken} from '../api/common';
 import {Selector, Source} from '../db/models';
 import {DataBase} from '../db/types';
 
+import {prepareXpath} from './utils';
+
 type ParseItemArgs = {
     config: Selector;
     url: string;
@@ -208,7 +210,7 @@ export const getFromBackoffice = async ({req, res}: GetFromBackofficeArgs<{}>) =
         return;
     }
     const document = new Dom().parseFromString(data);
-    const nodes = xpath.select(parentXPath, document);
+    const nodes = xpath.select(prepareXpath(parentXPath), document);
 
     if (!nodes || !Array.isArray(nodes)) {
         return;
