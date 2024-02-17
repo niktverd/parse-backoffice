@@ -60,4 +60,4 @@ export const prepareXpath = (xpath: string) => {
     }
 
     return xpath;
-}
+};

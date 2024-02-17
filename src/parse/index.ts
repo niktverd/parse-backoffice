@@ -47,17 +47,22 @@ const parseItem = async ({config, url}: ParseItemArgs): Promise<Record<string, s
     }
 
     const document = new Dom().parseFromString(data);
-    const nodes = xpath.select(parentXPath, document);
+    const nodes = xpath.select(prepareXpath(parentXPath), document);
 
     if (!nodes || !Array.isArray(nodes)) {
         return null;
     }
 
+    let contentFound = false;
+
     for (const node of nodes) {
         const objectToSave: Record<string, string> = {};
         for (const [field, xPath] of childrenXpaths) {
-            const childNodes = xpath.select(xPath, node) as Node[];
+            const childNodes = xpath.select(xPath.split(parentXPath + '/')[1], node) as Node[];
             for (const chNode of childNodes) {
+                if (chNode.textContent) {
+                    contentFound = true;
+                }
                 objectToSave[field] = chNode.textContent || '';
                 if (chNode.nodeName === 'a') {
                     const hrefNode = xpath.select('@href', chNode) as Attr[];
@@ -69,7 +74,9 @@ const parseItem = async ({config, url}: ParseItemArgs): Promise<Record<string, s
             }
         }
 
-        return objectToSave;
+        if (contentFound) {
+            return objectToSave;
+        }
     }
 
     return null;
